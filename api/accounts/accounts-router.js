@@ -1,5 +1,9 @@
 const express = require('express')
-const { checkAccountId, checkAccountPayload, checkAccountNameUnique } = require('./accounts-middleware')
+const { 
+  checkAccountId, 
+  checkAccountPayload, 
+  checkAccountNameUnique 
+} = require('./accounts-middleware')
 const Account = require('./accounts-model')
 
 const router = require('express').Router()
@@ -37,8 +41,14 @@ router.post('/', checkAccountPayload, checkAccountNameUnique, async(req, res, ne
   }
 })
 
-router.put('/:id', (req, res, next) => {
+router.put('/:id', checkAccountPayload, checkAccountId, async(req, res, next) => {
   // DO YOUR MAGIC
+  try{
+    const newAccount = await Account.updateById(req.params.id, req.pass)
+    res.json(newAccount)
+  } catch(err) {
+    next(err)
+  }
 });
 
 router.delete('/:id', (req, res, next) => {
