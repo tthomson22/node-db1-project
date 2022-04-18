@@ -29,7 +29,7 @@ const updateById = async (id, account) => {
   return getById(id);
 }
 
-const deleteById = id => {
+const deleteById = async id => {
   // DO YOUR MAGIC
   // DELETE FROM accounts WHERE id = ?;
   let result = await getById(id);
